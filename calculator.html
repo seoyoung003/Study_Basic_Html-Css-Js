@@ -62,39 +62,105 @@
         //     };
         // }
 
-        const onClickNumber = (number) => () => {  // 중괄호와 return이 같이 있으면 생략가능. 함수 안에 함수가 있다 즉 함수를 반환하고 있다라고 생각하기.
-                if (operator) {     //다음과 같이 return 안에 함수를 넣어서 함수를 꼭 반환해줘야만 정상 작동이 된다.
-                numTwo += number;
-                } else {
-                    numOne += number;
+        const onClickNumber = (event) => {  // 중괄호와 return이 같이 있으면 생략가능. 함수 안에 함수가 있다 즉 함수를 반환하고 있다라고 생각하기.
+                if (!operator) { //비어있다
+                    numOne += event.target.textContent;
+                    $result.value += event.target.textContent;     //다음과 같이 return 안에 함수를 넣어서 함수를 꼭 반환해줘야만 정상 작동이 된다.
+                    return;
                 }
-                $result.value += number;
-            };//함수가 함수를 return 해주는 함수를 고차함수 라고 한다.
-        
-        document.querySelector("#num-0").addEventListener('click', onClickNumber(0)); //함수는 반환값이 undefined이므로 
-        document.querySelector("#num-1").addEventListener('click', onClickNumber(1));
-        document.querySelector("#num-2").addEventListener('click', onClickNumber(2));
-        document.querySelector("#num-3").addEventListener('click', onClickNumber(3));
-        document.querySelector("#num-4").addEventListener('click', onClickNumber(4));
-        document.querySelector("#num-5").addEventListener('click', onClickNumber(5));
-        document.querySelector("#num-6").addEventListener('click', onClickNumber(6));
-        document.querySelector("#num-7").addEventListener('click', onClickNumber(7));
-        document.querySelector("#num-8").addEventListener('click', onClickNumber(8));
-        document.querySelector("#num-9").addEventListener('click', onClickNumber(9));
+
+                if(!numTwo) { //비어있지 않다.
+                    $result.value = '';
+                }
+                    numTwo += event.target.textContent;
+                    $result.value += event.target.textContent;
+
+                if (numTwo){
+                    numOne += numTwo;
+                    numTwo += event.target.textContent;
+                    $result.value += event.target.textContent;
+                }
+                };
+          
+            //함수가 함수를 return 해주는 함수를 고차함수 라고 한다.
+            
+        document.querySelector("#num-0").addEventListener('click', onClickNumber); //함수는 반환값이 undefined이므로 
+        document.querySelector("#num-1").addEventListener('click', onClickNumber);
+        document.querySelector("#num-2").addEventListener('click', onClickNumber);
+        document.querySelector("#num-3").addEventListener('click', onClickNumber);
+        document.querySelector("#num-4").addEventListener('click', onClickNumber);
+        document.querySelector("#num-5").addEventListener('click', onClickNumber);
+        document.querySelector("#num-6").addEventListener('click', onClickNumber);
+        document.querySelector("#num-7").addEventListener('click', onClickNumber);
+        document.querySelector("#num-8").addEventListener('click', onClickNumber);
+        document.querySelector("#num-9").addEventListener('click', onClickNumber);
        
-        document.querySelector("#plus").addEventListener('click', () => {
+
+        const onClickOperator = (op) => () =>{
             if(numOne) {
-                operator += '+';
+                operator = op;
+                $operator.value = op;
             }else{
-                alert("numOne이 없습니다.");
+                alert("숫자를 먼저 입력하세요");
+            }
+            }
+            
+        
+
+        document.querySelector("#plus").addEventListener('click', onClickOperator('+'));
+        document.querySelector("#minus").addEventListener('click', onClickOperator('-'));
+        document.querySelector("#divide").addEventListener('click', onClickOperator('/'));
+        document.querySelector("#multiply").addEventListener('click', onClickOperator('*'));
+        document.querySelector("#calculate").addEventListener('click', () => {
+            if (numTwo) {
+                switch (operator) {
+                    case '+':
+                        $result.value = parseInt(numOne) + parseInt(numTwo);
+                        break;
+                    case '-':
+                        $result.value = parseInt(numOne) - parseInt(numTwo);
+                        break;
+                    case '/':
+                        $result.value = parseInt(numOne) / parseInt(numTwo);
+                        break;
+                    case '*':
+                        $result.value = parseInt(numOne) * parseInt(numTwo);
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                alert("숫자를 먼저 입력하세요.")
             }
         });
-        document.querySelector("#minus").addEventListener('click', () => {});
-        document.querySelector("#divide").addEventListener('click', () => {});
-        document.querySelector("#multiply").addEventListener('click', () => {});
-        document.querySelector("#calculate").addEventListener('click', () => {});
-        document.querySelector("#clear").addEventListener('click', () => {});
 
+        // ------------- calculate 안에 있는 위의 switch 문을 if 문으로 바꾼 것 ----------------------------
+        // if (numTwo) {
+        //         if(opertator = '+'){
+        //             $result.value = parseInt(numOne) + parseInt(numTwo);  
+        //         } else if(operator = '-') {
+        //             $result.value = parseInt(numOne) - parseInt(numTwo);
+        //         } else if(operator = '/') {
+        //             $result.value = parseInt(numOne) / parseInt(numTwo);
+        //         } else {
+        //             $result.value = parseInt(numOne) * parseInt(numTwo);
+        //         }       
+        //     } else {
+        //         alert("숫자를 먼저 입력하세요.")
+        //     }
+        
+
+
+        
+        
+        document.querySelector("#clear").addEventListener('click', () => {
+            numOne = '';
+            operator = '';
+            numTwo = '';
+            $operator.value = '';
+            $result.value = '';
+        });
+            
     </script>
 
 </body>
