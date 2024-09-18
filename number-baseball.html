@@ -64,6 +64,13 @@
         //검사하는 코드
     }
 
+    function defeated() {
+        const message = document.createTextNode(`패배! 정답은 ${answer.join('')}`);
+        $logs.appendChild(message);
+    }
+
+    let out = 0;
+
        $form.addEventListener('submit', (event) => {
             event.preventDefault(); //submit 되면 웹페이지 새로 고침되면서 numbers, answer 값이 날라가는 현상 막기 위함
             const value = $input.value;
@@ -84,8 +91,7 @@
                 // }
 
             if(tries.length >= 10) {
-                const message = document.createTextNode(`패배! 정답은 ${answer.join('')}`);
-                $logs.appendChild(message);
+                defeated();
                 return;
             }
 
@@ -126,9 +132,10 @@
             // }
 
             // $logs.appendChild(document.createTextNode(`스트라이크: ${strike} 볼: ${ball}`));
-
+         
             let strike = 0;
             let ball = 0;
+            
             for(let i = 0; i < answer.length; i++) {
                 const index = value.indexOf(answer[i]);
                 if(index > -1) {
@@ -137,10 +144,48 @@
                     } else {
                         ball += 1;
                     }
-                }
+                } 
+                
             }
-            $logs.append(`${value}: ${strike} 스트라이크 ${ball} 볼`, document.createElement('br'));
+
+        
+            
+            // if(strike == 0 && ball == 0) {
+            //     out += 1;
+            //     $logs.append(`${value}: ${out} 아웃입니다.`, document.createElement('br'));
+                
+            // } else {
+            //     $logs.append(`${value}: ${strike} 스트라이크 ${ball} 볼`, document.createElement('br'));
+            //     tries.push(value);
+            // }
+            
+            // if(out == 3) {
+            //     $logs.append(`3 아웃 패배입니다.`);
+            //     return
+            // } 
+            
+            console.log(`out: ${out}, strike: ${strike}, ball: ${ball}, value: ${value}`);
+
+            if(strike == 0 && ball == 0) {
+                out ++;
+    
+                $logs.append(`${value} ${out}아웃`, document.createElement('br'));
+                
+            } else {
+                $logs.append(`${value}: ${strike} 스트라이크 ${ball} 볼`, document.createElement('br'));
+            }
+            
+            if(out === 3) {
+               defeated();
+                return;
+            } 
             tries.push(value);
+           
+           
+            
+            
+
+            
        });
     </script>
 </body>
