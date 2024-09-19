@@ -19,13 +19,61 @@
     </style>
 </head>
 <body>
-    <div id="result">추첨 결과는?</div>
-    <div id="bonus">보너스: </div>
+    <form id="form">
+        <input name="input" placeholder="숫자 6개를 쉽표로 구분해 입력하세요.">
+        <button>추첨</button>
+    </form>
+    <div id="result">당첨 숫자: </div>
+    <div id="bonus">보너스 숫자: </div>
 
     <script>
+        const $form = document.querySelector("#form");
         const $result = document.querySelector('#result');
         const $bonus = document.querySelector('#bonus');
-        const candidate = Array(45).fill().map((v, i) => i + 1);
+        
+
+        $form.addEventListener('submit', (event) => {
+            event.preventDefault;
+            const string = event.target.input.value;
+            //검사
+            if(!string.trim()) {
+                return alert("숫자를 입력하세요")
+            }
+            const myNumbers = string.split(',').map((v) =>parseInt(v.trim()));
+            if(myNumbers.length !== 6) {
+                return alert("숫자 6개를 입력해주세요.")
+            }
+
+            if(new Set(input).size !== 6) {//중복된 숫자가 있는가
+                return alert("중복되지 않게 입력해 주세요.");
+            }
+
+            if(myNumbers.find((v) => v > 45 || v <1)) {
+                return alert("1부터 45까지만 입력할 수 있습니다.");
+            }
+        })
+
+
+
+    // const arr = ['a', 'b', 'c', 'b'];
+
+    // let dupYn = false;
+    // for(let i = 0; i < arr.length; i++) {
+    //     const currElem = arr[i];
+  
+    // for(let j = i+1; j < arr.length; j++) {   Set 함수를 반복문으로 바꿨을 때
+    //     if(currElem === arr[j]) {
+    //         dupYn = true;
+    //         break;
+    //     }
+    // }
+  
+    // if(dupYn)  {
+    //     break;
+    // }
+    // }
+
+document.writeln("DupYn : " + dupYn);
     </script>
     
 </body>
