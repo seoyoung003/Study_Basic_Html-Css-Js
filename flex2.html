@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>flex로 예제 혼자 만들어보기</title>
+    <style>
+        #container{
+            display: flex;
+        }
+        #parent1{
+            width: 120px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            border: 3px solid red;
+            margin: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .child1 {
+            flex: 0 0 auto;
+            border: 3px solid orange;
+            margin: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            width: 60px;
+            height: 60px;
+            border-style: dotted;
+        }
+
+        #parent2{
+            width: 120px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            border: 3px solid red;
+            margin: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .child2 {
+            flex: 0 0 auto;
+            border: 3px solid blue;
+            margin: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            width: 60px;
+            height: 60px;
+            border-style: dotted;
+        }
+    </style>
+</head>
+<body id="container">
+    <div id="parent1">
+        <div class="child1">아이콘1</div>
+        <div class="child1">아이콘2</div>
+        <div class="child1">아이콘3</div>
+    </div>
+    <div id="parent2">
+        <div class="child2">영역1</div>
+        <div class="child2">영역2</div>
+        <div class="child2">영역3</div>
+    </div>
+    <!-- <div id="parent3">
+        <div class="child3">영역4</div>
+        <div class="child3">영역5</div>
+    </div> -->
+    
+</body>
+</html>
