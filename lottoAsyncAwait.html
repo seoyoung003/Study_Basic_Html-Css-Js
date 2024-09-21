@@ -21,7 +21,7 @@
 <body>
     <form id="form">
         <input name="input" placeholder="숫자 6개를 쉽표로 구분해 입력하세요.">
-        <button>추첨</button>
+        <button id="bt">추첨</button>
     </form>
     <div id="result">당첨 숫자: </div>
     <div id="bonus">보너스 숫자: </div>
@@ -34,14 +34,44 @@
         function drawBall($target, value) {
                 const $ball = document.createElement('div');  //ball 만들 때 반복되는 부분 모아서 함수로 만듬.
                 $ball.className = 'ball';
+                // colorize(value, $ball);
                 $ball.textContent = value;
                 $target.appendChild($ball);
             }
 
-        
+        // function colorize(value, $tag) {
+        //     if(myNumbers < 10) {
+        //         $tag.style.backgroundColor = 'red';
+        //         $tag.style.color = 'white';
 
-        $form.addEventListener('submit', (event) => {
+        //     }else if (myNumbers<20) {
+        //         $tag.style.backgroundColor = 'orange';
+        //     }else if(myNumbers<30) {
+        //         $tag.style.backgroundColor = 'yellow';
+        //     }else if (myNumbers<40) {
+        //         $tag.style.backgroundColor = 'blue';
+        //         $tag.style.color = 'white';
+
+        //     }else {
+        //         $tag.style.backgroundColor = 'green';
+        //         $tag.style.color = 'white';
+        //     }
+
+        // }
+
+            const setTimeoutPromise = (ms) => new Promise((resolve, reject) => {
+                setTimeout(resolve, ms);
+            });
+
+            let clicked = false;
+
+        $form.addEventListener('submit', async (event) => {
             event.preventDefault();
+            if(clicked) {
+                return;
+            }
+            clicked = true;
+            
             const string = event.target.input.value;
             console.log(string);
             //검사
@@ -49,6 +79,7 @@
                 return alert("숫자를 입력하세요")
             }
             const myNumbers = string.split(',').map((v) =>parseInt(v.trim()));
+            console.log(myNumbers);
             if(myNumbers.length !== 6) {
                 return alert("숫자 6개를 입력해주세요.")
             }
@@ -61,6 +92,11 @@
                 return alert("1부터 45까지만 입력할 수 있습니다.");
             }
 
+            const target = document.getElementById('bt');
+            target.disabled = true;
+
+           
+
             const candidate = Array(45).fill().map((v, i) => i+1)
             const chosen = [];
             while(candidate.length) {
@@ -72,55 +108,58 @@
             const bonus = chosen[6];
             console.log(winBalls, bonus);
 
-            
+           for(let i = 0; i < 6; i++) {
 
-
-            // for(i=0; i<=candidate.length; i++) {
-            //     const random = candidate.splice(Math.floor(Math.random() * candidate.length), 1)[0]; //while문을 for문으로 내가 바꿔본거
-            //     chosen.push(random);
-            // }
-
-            // for(let i = candidate.length; i > 0; i--) {
-            //     const random = candidate.splice(Math.floor(Math.random() * i), 1)[0];  //정답
-            //     chosen.push(random);
-            // }
-
-
-            
-            // for(let i = 0; i <= 6; i++) {
-            //     let div1 = document.createElement("div");
-            //     div1.setAttribute("div", "ball");           내가 시도한 ball 만들기
-            //     div1.textContent = winBalls[i];
-            //     setTimeout(() => {
-            //         $result.textContent = div1;
-            //     }, 1000);
-            // }
-
-            // for(let i = 0; i < 6; i++) {
-
-            //     setTimeout(() => {
-            //         const $ball = document.createElement('div'); ball 두번째 시도 성공
-            //         $ball.className = 'ball';
-            //         $ball.textContent = winBalls[i];
-            //         $result.appendChild($ball);
-                        
-            //     }, i * 1000)
-                
-               
-            // }
-
-           
-            for(let i = 0; i < 6; i++) {
-
-                setTimeout(() => {
-                    drawBall($result, winBalls[i]);
-                        
-                }, (i + 1) * 1000)   
+                await setTimeoutPromise(1000);
+                drawBall($result, winBalls[i]);
             }
 
-            setTimeout(() => {
-                drawBall($bonus, bonus);
-            }, 7000)
+            await setTimeoutPromise(1000);
+            drawBall($bonus, bonus);
+            await setTimeoutPromise(50);
+
+            
+            
+            // for(let i=0; i<6; i++){
+            //     if(mynumbers.includes(winBalls[i])) { 내가 쓴거
+            //         count++;
+            //     }
+            // }
+
+            let count = 0;
+
+            myNumbers.forEach((my) => {
+                if(winBalls.includes(my)) {
+                    count++;
+                    
+                }
+            });
+
+            console.log(count);
+
+            if(count === 6) {
+                alert("1등입니다.");
+            } else if(count === 5) {
+                if(myNumbers.includes(bonus)) {
+                    alert("2등입니다.");
+                } else {
+                    alert("3등입니다.");
+                }
+            } else if (count === 4) {
+                alert("1등입니다.");
+            }else if(count === 3) {
+                alert("5등입니다.");
+            } else {
+                alert("로또 참 어렵죠?")
+            }
+
+
+
+            
+            clicked = false;
+            
+            
+           
         });
         
     </script>
